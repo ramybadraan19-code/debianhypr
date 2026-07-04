@@ -1,0 +1,2 @@
+# debianhypr
+rice debian hyprland
