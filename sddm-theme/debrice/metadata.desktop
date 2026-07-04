@@ -1,0 +1,14 @@
+[SddmGreeterTheme]
+Name=DebRice
+Description=Futuristic glassmorphism login theme for DebRice
+Author=DebRice Project
+Copyright=MIT
+License=MIT
+Type=sddm-theme
+Version=1.0
+Website=https://github.com/ramybadraan19-code/debianhypr
+Screenshot=screenshot.png
+MainScript=Main.qml
+ConfigFile=theme.conf
+TranslationsDirectory=translations
+Font=JetBrainsMono Nerd Font

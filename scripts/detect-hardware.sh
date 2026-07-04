@@ -1,0 +1,140 @@
+#!/usr/bin/env bash
+# ==============================================================================
+# DebRice hardware/environment detection.
+# Writes results as shell-sourceable KEY=value pairs to $DEBRICE_STATE_DIR/hardware.env
+# so every other script (installer, hyprland config generator, dashboard) can
+# read hardware facts without re-detecting them.
+# ==============================================================================
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/lib.sh"
+
+log_step "Detecting system hardware and environment"
+
+# ---- Debian version ---------------------------------------------------
+DEBIAN_VERSION="unknown"
+DEBIAN_CODENAME="unknown"
+if [[ -f /etc/os-release ]]; then
+    # shellcheck disable=SC1091
+    source /etc/os-release
+    DEBIAN_VERSION="${VERSION_ID:-trixie}"
+    DEBIAN_CODENAME="${VERSION_CODENAME:-trixie}"
+fi
+log_info "Debian: ${PRETTY_NAME:-$DEBIAN_CODENAME}"
+
+# ---- CPU vendor --------------------------------------------------------
+CPU_VENDOR="unknown"
+if grep -qi "GenuineIntel" /proc/cpuinfo 2>/dev/null; then
+    CPU_VENDOR="intel"
+elif grep -qi "AuthenticAMD" /proc/cpuinfo 2>/dev/null; then
+    CPU_VENDOR="amd"
+fi
+CPU_MODEL="$(grep -m1 'model name' /proc/cpuinfo 2>/dev/null | cut -d: -f2 | sed 's/^ *//')"
+CPU_CORES="$(nproc 2>/dev/null || echo 4)"
+log_info "CPU: $CPU_VENDOR ($CPU_MODEL, $CPU_CORES cores)"
+
+# ---- GPU vendor(s) -------------------------------------------------------
+GPU_VENDOR="unknown"
+GPU_LIST=""
+if command_exists lspci; then
+    GPU_LIST="$(lspci -nnk | grep -iE 'VGA|3D controller' || true)"
+    if echo "$GPU_LIST" | grep -qi nvidia; then
+        GPU_VENDOR="nvidia"
+    elif echo "$GPU_LIST" | grep -qi amd; then
+        GPU_VENDOR="amd"
+    elif echo "$GPU_LIST" | grep -qi intel; then
+        GPU_VENDOR="intel"
+    fi
+    # Hybrid graphics (laptop with both Intel/AMD iGPU + NVIDIA dGPU)
+    GPU_HYBRID="false"
+    if echo "$GPU_LIST" | grep -qi nvidia && echo "$GPU_LIST" | grep -qiE 'intel|amd'; then
+        GPU_HYBRID="true"
+    fi
+else
+    GPU_HYBRID="false"
+fi
+log_info "GPU: $GPU_VENDOR (hybrid=$GPU_HYBRID)"
+
+# ---- Laptop vs Desktop ---------------------------------------------------
+CHASSIS_TYPE="desktop"
+if [[ -d /proc/acpi/button/lid ]] || [[ -n "$(find /sys/class/power_supply -maxdepth 1 -iname 'BAT*' 2>/dev/null)" ]]; then
+    CHASSIS_TYPE="laptop"
+fi
+log_info "Chassis: $CHASSIS_TYPE"
+
+# ---- RAM -------------------------------------------------------------------
+RAM_TOTAL_MB="$(awk '/MemTotal/ {print int($2/1024)}' /proc/meminfo 2>/dev/null || echo 4096)"
+if   [[ "$RAM_TOTAL_MB" -lt 4096 ]];  then RAM_TIER="low"
+elif [[ "$RAM_TOTAL_MB" -lt 8192 ]];  then RAM_TIER="medium"
+elif [[ "$RAM_TOTAL_MB" -lt 16384 ]]; then RAM_TIER="high"
+else RAM_TIER="ultra"
+fi
+log_info "RAM: ${RAM_TOTAL_MB}MB (tier: $RAM_TIER)"
+
+# ---- Resolution --------------------------------------------------------
+RESOLUTION="1920x1080"
+RESOLUTION_CLASS="1080p"
+if command_exists xrandr && [[ -n "${DISPLAY:-}" ]]; then
+    RESOLUTION="$(xrandr --current 2>/dev/null | grep '\*' | head -n1 | awk '{print $1}')"
+elif [[ -d /sys/class/drm ]]; then
+    for card in /sys/class/drm/*/modes; do
+        mode="$(head -n1 "$card" 2>/dev/null)"
+        [[ -n "$mode" ]] && RESOLUTION="$mode" && break
+    done
+fi
+RESOLUTION="${RESOLUTION:-1920x1080}"
+WIDTH="$(echo "$RESOLUTION" | cut -dx -f1)"
+if   [[ "${WIDTH:-1920}" -ge 3840 ]]; then RESOLUTION_CLASS="4k"
+elif [[ "${WIDTH:-1920}" -ge 2560 ]]; then RESOLUTION_CLASS="1440p"
+elif [[ "${WIDTH:-1920}" -ge 1920 ]]; then RESOLUTION_CLASS="1080p"
+else RESOLUTION_CLASS="720p"
+fi
+log_info "Resolution: $RESOLUTION ($RESOLUTION_CLASS)"
+
+# ---- Wayland support -----------------------------------------------------
+WAYLAND_CAPABLE="true"
+if [[ "$GPU_VENDOR" == "nvidia" ]]; then
+    # Wayland works on modern NVIDIA (535+) with DRM KMS enabled; flag for installer.
+    NVIDIA_DRIVER_VER="$(nvidia-smi --query-gpu=driver_version --format=csv,noheader 2>/dev/null | head -n1 || echo unknown)"
+    log_warn "NVIDIA GPU detected (driver: $NVIDIA_DRIVER_VER) — will enable NVIDIA Wayland env vars"
+fi
+
+# ---- Existing desktop environment ---------------------------------------
+EXISTING_DE="none"
+for de_check in "GNOME:gnome-shell" "KDE:plasmashell" "XFCE:xfce4-session" "Cinnamon:cinnamon" "MATE:mate-session" "LXQt:lxqt-session"; do
+    name="${de_check%%:*}"; bin="${de_check##*:}"
+    if command_exists "$bin"; then EXISTING_DE="$name"; break; fi
+done
+log_info "Existing DE: $EXISTING_DE"
+
+# ---- Battery / power (laptop optimization hint) --------------------------
+HAS_BATTERY="false"
+[[ "$CHASSIS_TYPE" == "laptop" ]] && HAS_BATTERY="true"
+
+# ---- Write results ---------------------------------------------------------
+mkdir -p "$DEBRICE_STATE_DIR"
+cat > "$DEBRICE_STATE_DIR/hardware.env" <<EOF
+# Auto-generated by detect-hardware.sh on $(date)
+DEBIAN_VERSION="$DEBIAN_VERSION"
+DEBIAN_CODENAME="$DEBIAN_CODENAME"
+CPU_VENDOR="$CPU_VENDOR"
+CPU_CORES="$CPU_CORES"
+GPU_VENDOR="$GPU_VENDOR"
+GPU_HYBRID="$GPU_HYBRID"
+CHASSIS_TYPE="$CHASSIS_TYPE"
+RAM_TOTAL_MB="$RAM_TOTAL_MB"
+RAM_TIER="$RAM_TIER"
+RESOLUTION="$RESOLUTION"
+RESOLUTION_CLASS="$RESOLUTION_CLASS"
+WAYLAND_CAPABLE="$WAYLAND_CAPABLE"
+EXISTING_DE="$EXISTING_DE"
+HAS_BATTERY="$HAS_BATTERY"
+EOF
+
+log_ok "Hardware profile written to $DEBRICE_STATE_DIR/hardware.env"
+
+# Print summary table when run directly
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    echo
+    echo -e "${C_BOLD}Detected system profile:${C_RESET}"
+    column -t -s= "$DEBRICE_STATE_DIR/hardware.env" 2>/dev/null | sed '/^#/d'
+fi

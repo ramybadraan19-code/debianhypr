@@ -1,0 +1,6 @@
+THEME_NAME="Tokyo Night"
+BG="#1a1b26"; BG_ALT="#16161e"; FG="#c0caf5"; FG_ALT="#a9b1d6"
+ACCENT="#7aa2f7"; ACCENT2="#bb9af7"; RED="#f7768e"; GREEN="#9ece6a"
+YELLOW="#e0af68"; BLUE="#7aa2f7"; MAGENTA="#bb9af7"; CYAN="#7dcfff"
+BORDER_ACTIVE="#7aa2f7"; BORDER_INACTIVE="#414868"
+BLUR="true"; TRANSPARENCY="0.92"; ROUNDING="10"

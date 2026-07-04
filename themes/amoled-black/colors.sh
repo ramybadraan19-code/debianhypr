@@ -1,0 +1,6 @@
+THEME_NAME="AMOLED Black"
+BG="#000000"; BG_ALT="#0a0a0a"; FG="#ffffff"; FG_ALT="#aaaaaa"
+ACCENT="#00e5ff"; ACCENT2="#ff00c8"; RED="#ff3b3b"; GREEN="#00ff9c"
+YELLOW="#ffe600"; BLUE="#00b4ff"; MAGENTA="#ff00c8"; CYAN="#00e5ff"
+BORDER_ACTIVE="#00e5ff"; BORDER_INACTIVE="#1a1a1a"
+BLUR="false"; TRANSPARENCY="1.0"; ROUNDING="0"

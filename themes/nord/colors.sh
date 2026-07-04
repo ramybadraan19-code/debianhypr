@@ -1,0 +1,6 @@
+THEME_NAME="Nord"
+BG="#2e3440"; BG_ALT="#242933"; FG="#eceff4"; FG_ALT="#d8dee9"
+ACCENT="#88c0d0"; ACCENT2="#81a1c1"; RED="#bf616a"; GREEN="#a3be8c"
+YELLOW="#ebcb8b"; BLUE="#5e81ac"; MAGENTA="#b48ead"; CYAN="#8fbcbb"
+BORDER_ACTIVE="#88c0d0"; BORDER_INACTIVE="#4c566a"
+BLUR="true"; TRANSPARENCY="0.94"; ROUNDING="8"

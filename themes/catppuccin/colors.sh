@@ -1,0 +1,6 @@
+THEME_NAME="Catppuccin Mocha"
+BG="#1e1e2e"; BG_ALT="#181825"; FG="#cdd6f4"; FG_ALT="#a6adc8"
+ACCENT="#cba6f7"; ACCENT2="#89b4fa"; RED="#f38ba8"; GREEN="#a6e3a1"
+YELLOW="#f9e2af"; BLUE="#89b4fa"; MAGENTA="#f5c2e7"; CYAN="#94e2d5"
+BORDER_ACTIVE="#cba6f7"; BORDER_INACTIVE="#45475a"
+BLUR="true"; TRANSPARENCY="0.90"; ROUNDING="12"

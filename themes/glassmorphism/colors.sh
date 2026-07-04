@@ -1,0 +1,6 @@
+THEME_NAME="Glassmorphism"
+BG="#1c1f2e"; BG_ALT="#151725"; FG="#f0f2f5"; FG_ALT="#c3c9d6"
+ACCENT="#8ea9ff"; ACCENT2="#ffffff"; RED="#ff8a8a"; GREEN="#8affc1"
+YELLOW="#ffe38a"; BLUE="#8ea9ff"; MAGENTA="#d78aff"; CYAN="#8af1ff"
+BORDER_ACTIVE="#ffffff"; BORDER_INACTIVE="#3a3f55"
+BLUR="true"; TRANSPARENCY="0.55"; ROUNDING="20"

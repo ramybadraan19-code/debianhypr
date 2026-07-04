@@ -1,0 +1,6 @@
+THEME_NAME="Dracula"
+BG="#282a36"; BG_ALT="#21222c"; FG="#f8f8f2"; FG_ALT="#bfbfbf"
+ACCENT="#bd93f9"; ACCENT2="#ff79c6"; RED="#ff5555"; GREEN="#50fa7b"
+YELLOW="#f1fa8c"; BLUE="#8be9fd"; MAGENTA="#ff79c6"; CYAN="#8be9fd"
+BORDER_ACTIVE="#bd93f9"; BORDER_INACTIVE="#44475a"
+BLUR="true"; TRANSPARENCY="0.92"; ROUNDING="10"
