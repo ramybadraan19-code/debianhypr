@@ -1,0 +1,21 @@
+/* DebRice — EWW widget styling. Theme: {{THEME_NAME}} */
+* { font-family: "JetBrainsMono Nerd Font"; }
+
+.clock-widget {
+    background: {{BG_HEX_A}};
+    border-radius: {{ROUNDING}}px;
+    padding: 18px 24px;
+    border: 1px solid {{ACCENT_HEX}};
+}
+.clock-time { font-size: 56px; font-weight: 800; color: {{FG_HEX}}; }
+.clock-date { font-size: 16px; color: {{FG_ALT_HEX}}; margin-top: 4px; }
+
+.weather-widget, .music-widget, .sysstats-widget {
+    background: {{BG_HEX_A}};
+    border-radius: {{ROUNDING}}px;
+    padding: 10px 16px;
+    color: {{FG_HEX}};
+    border: 1px solid {{BORDER_INACTIVE_HEX}};
+}
+.music-icon { color: {{ACCENT_HEX}}; margin-right: 8px; font-size: 20px; }
+.stat-value { color: {{ACCENT_HEX}}; font-weight: 700; }

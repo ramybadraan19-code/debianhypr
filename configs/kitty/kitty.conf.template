@@ -1,0 +1,47 @@
+# DebRice — Kitty terminal config. Theme: {{THEME_NAME}}
+font_family      JetBrainsMono Nerd Font
+bold_font        JetBrainsMono Nerd Font Bold
+italic_font      JetBrainsMono Nerd Font Italic
+font_size        12.0
+disable_ligatures never
+font_features JetBrainsMonoNL-Regular +calt +liga +dlig
+
+background_opacity {{TRANSPARENCY}}
+background_blur    {{BLUR_KITTY}}
+dynamic_background_opacity yes
+
+cursor_shape beam
+cursor_blink_interval 0.5
+window_padding_width 14
+confirm_os_window_close 0
+enable_audio_bell no
+
+background {{BG_HEX}}
+foreground {{FG_HEX}}
+selection_background {{ACCENT_HEX}}
+selection_foreground {{BG_HEX}}
+url_color {{ACCENT2_HEX}}
+cursor {{ACCENT_HEX}}
+
+color0  {{BG_HEX}}
+color8  {{FG_ALT_HEX}}
+color1  {{RED_HEX}}
+color9  {{RED_HEX}}
+color2  {{GREEN_HEX}}
+color10 {{GREEN_HEX}}
+color3  {{YELLOW_HEX}}
+color11 {{YELLOW_HEX}}
+color4  {{BLUE_HEX}}
+color12 {{BLUE_HEX}}
+color5  {{MAGENTA_HEX}}
+color13 {{MAGENTA_HEX}}
+color6  {{CYAN_HEX}}
+color14 {{CYAN_HEX}}
+color7  {{FG_HEX}}
+color15 {{FG_HEX}}
+
+shell fish
+shell_integration enabled
+allow_remote_control yes
+
+startup_session {{DEBRICE_HOME}}/repo/configs/kitty/startup.session

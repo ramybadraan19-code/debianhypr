@@ -1,0 +1,2 @@
+# Runs fastfetch on new kitty windows for a premium terminal feel
+launch fish -C "fastfetch"

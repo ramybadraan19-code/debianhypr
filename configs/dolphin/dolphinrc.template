@@ -1,0 +1,19 @@
+# DebRice — Dolphin configuration (transparent sidebar, modern toolbar). Theme: {{THEME_NAME}}
+[General]
+ShowFullPath=true
+ShowSpaceInfo=true
+ViewPropsTimestamp=
+
+[IconsMode]
+IconSize=48
+PreviewSize=64
+
+[DetailsMode]
+IconSize=22
+
+[PlacesPanel]
+IconSize=22
+
+[KDE]
+LookAndFeelPackage=DebRice
+widgetStyle=kvantum

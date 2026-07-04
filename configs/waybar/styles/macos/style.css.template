@@ -1,0 +1,10 @@
+/* DebRice Waybar style: macOS-INSPIRED */
+* { font-family: "SF Pro Display", "JetBrainsMono Nerd Font"; font-size: 13px; min-height: 0; }
+window#waybar { background: {{BG_HEX_A}}; color: {{FG_HEX}}; }
+#workspaces button { padding: 0 6px; color: {{FG_ALT_HEX}}; font-size: 16px; }
+#workspaces button.active { color: {{ACCENT_HEX}}; }
+#clock { font-weight: 600; padding: 0 14px; }
+#cpu, #memory, #disk, #network, #bluetooth, #pulseaudio, #temperature,
+#tray, #custom-power, #custom-clipboard, #custom-weather, #custom-cava,
+#custom-notification, #custom-keyboard-layout { padding: 0 8px; color: {{FG_HEX}}; }
+#custom-power { color: {{RED_HEX}}; }

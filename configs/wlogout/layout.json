@@ -1,0 +1,34 @@
+{
+    "children": [
+        {
+            "label": "Lock",
+            "action": "hyprlock",
+            "child": "lock"
+        },
+        {
+            "label": "Logout",
+            "action": "loginctl terminate-user $USER",
+            "child": "logout"
+        },
+        {
+            "label": "Suspend",
+            "action": "systemctl suspend",
+            "child": "suspend"
+        },
+        {
+            "label": "Hibernate",
+            "action": "systemctl hibernate",
+            "child": "hibernate"
+        },
+        {
+            "label": "Reboot",
+            "action": "systemctl reboot",
+            "child": "reboot"
+        },
+        {
+            "label": "Shutdown",
+            "action": "shutdown now",
+            "child": "shutdown"
+        }
+    ]
+}

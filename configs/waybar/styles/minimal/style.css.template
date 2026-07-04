@@ -1,0 +1,9 @@
+/* DebRice Waybar style: MINIMAL */
+* { font-family: "JetBrainsMono Nerd Font"; font-size: 12px; min-height: 0; }
+window#waybar { background: {{BG_HEX_A}}; color: {{FG_ALT_HEX}}; }
+#workspaces button { padding: 0 6px; color: {{FG_ALT_HEX}}; }
+#workspaces button.active { color: {{ACCENT_HEX}}; }
+#clock, #cpu, #memory, #disk, #network, #bluetooth, #pulseaudio, #temperature,
+#tray, #custom-power, #custom-clipboard, #custom-weather, #custom-cava,
+#custom-notification, #custom-keyboard-layout { padding: 0 8px; color: {{FG_ALT_HEX}}; }
+#custom-power { color: {{RED_HEX}}; }

@@ -1,0 +1,11 @@
+/* DebRice Waybar style: WINDOWS 11-INSPIRED */
+* { font-family: "Segoe UI", "JetBrainsMono Nerd Font"; font-size: 13px; min-height: 0; }
+window#waybar { background: {{BG_HEX_A}}; color: {{FG_HEX}}; border-top: 1px solid {{BORDER_INACTIVE_HEX}}; }
+#workspaces { margin: 0 10px; }
+#workspaces button { padding: 0 10px; border-radius: 6px; color: {{FG_ALT_HEX}}; }
+#workspaces button.active { background: {{ACCENT_HEX}}; color: {{BG_HEX}}; }
+#clock { padding: 0 14px; font-weight: 600; }
+#cpu, #memory, #disk, #network, #bluetooth, #pulseaudio, #temperature,
+#tray, #custom-power, #custom-clipboard, #custom-weather, #custom-cava,
+#custom-notification, #custom-keyboard-layout { padding: 0 8px; margin: 2px; border-radius: 6px; color: {{FG_HEX}}; }
+#custom-power { color: {{RED_HEX}}; }

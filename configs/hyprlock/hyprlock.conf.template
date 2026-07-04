@@ -1,0 +1,77 @@
+# DebRice — Hyprlock config. Theme: {{THEME_NAME}}
+general {
+    disable_loading_bar = false
+    grace = 2
+    hide_cursor = false
+    no_fade_in = false
+}
+
+background {
+    monitor =
+    path = {{WALLPAPER_PATH}}
+    blur_passes = 3
+    blur_size = 8
+    brightness = 0.55
+    contrast = 1.0
+}
+
+input-field {
+    monitor =
+    size = 300, 60
+    outline_thickness = 3
+    dots_size = 0.26
+    dots_spacing = 0.3
+    outer_color = rgb({{ACCENT_HEX}})
+    inner_color = rgb({{BG_HEX}})
+    font_color = rgb({{FG_HEX}})
+    fade_on_empty = true
+    placeholder_text = <i>Password...</i>
+    position = 0, -160
+    halign = center
+    valign = center
+    rounding = {{ROUNDING}}
+}
+
+label {
+    monitor =
+    text = cmd[update:1000] echo "$(date +'%H:%M')"
+    color = rgb({{FG_HEX}})
+    font_size = 90
+    font_family = JetBrainsMono Nerd Font Bold
+    position = 0, 220
+    halign = center
+    valign = center
+}
+
+label {
+    monitor =
+    text = cmd[update:60000] echo "$(date +'%A, %B %d')"
+    color = rgb({{FG_ALT_HEX}})
+    font_size = 22
+    font_family = JetBrainsMono Nerd Font
+    position = 0, 130
+    halign = center
+    valign = center
+}
+
+label {
+    monitor =
+    text = cmd[update:5000] echo "  $(cat /sys/class/power_supply/BAT0/capacity 2>/dev/null || echo 100)%"
+    color = rgb({{ACCENT_HEX}})
+    font_size = 16
+    font_family = JetBrainsMono Nerd Font
+    position = 0, 60
+    halign = center
+    valign = center
+}
+
+label {
+    monitor =
+    text = cmd[update:600000] $HOME/.local/share/debrice/repo/scripts/weather.sh --short
+    color = rgb({{FG_ALT_HEX}})
+    font_size = 16
+    font_family = JetBrainsMono Nerd Font
+    position = 0, 30
+    halign = center
+    valign = center
+}

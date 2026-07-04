@@ -1,0 +1,111 @@
+#!/usr/bin/env bash
+# ==============================================================================
+# debrice — the DebRice command-line control tool.
+# Installed to /usr/local/bin/debrice by install.sh.
+# ==============================================================================
+set -uo pipefail
+
+# Resolve the repo location regardless of where this symlink/copy lives.
+if [[ -f "$HOME/.local/share/debrice/repo/scripts/lib.sh" ]]; then
+    REPO_DIR="$HOME/.local/share/debrice/repo"
+elif [[ -n "${DEBRICE_REPO:-}" && -f "$DEBRICE_REPO/scripts/lib.sh" ]]; then
+    REPO_DIR="$DEBRICE_REPO"
+else
+    echo "DebRice repo not found. Expected at ~/.local/share/debrice/repo" >&2
+    exit 1
+fi
+SCRIPTS="$REPO_DIR/scripts"
+source "$SCRIPTS/lib.sh"
+
+VERSION_FILE="$REPO_DIR/VERSION"
+VERSION="$( [[ -f "$VERSION_FILE" ]] && cat "$VERSION_FILE" || echo "dev" )"
+
+usage() {
+    cat <<EOF
+${C_BOLD}debrice${C_RESET} — control your DebRice Hyprland rice
+
+Usage: debrice <command> [args]
+
+Commands:
+  update              Pull latest DebRice release and re-apply configs
+  theme [name]         Interactively choose a theme, or apply one directly
+  wallpaper [opts]      Choose/randomize/slideshow wallpapers (see --help)
+  doctor                Run health diagnostics
+  repair                Attempt to automatically fix detected issues
+  backup                Back up current configs
+  restore [snapshot]    Restore configs from a backup snapshot
+  reset                 Reset to default theme and settings
+  dashboard             Launch the graphical DebRice Dashboard
+  version               Print DebRice version
+  info                  Print system + theme info
+
+Examples:
+  debrice theme catppuccin
+  debrice wallpaper --random
+  debrice backup
+EOF
+}
+
+cmd="${1:-help}"; shift || true
+
+case "$cmd" in
+    update)
+        exec "$REPO_DIR/update.sh" "$@"
+        ;;
+    theme)
+        if [[ -n "${1:-}" ]]; then
+            exec "$SCRIPTS/apply-theme.sh" "$1" "${2:-}"
+        else
+            exec "$SCRIPTS/theme-select.sh"
+        fi
+        ;;
+    wallpaper)
+        exec "$SCRIPTS/wallpaper-engine.sh" "${1:---choose}" "${2:-}"
+        ;;
+    doctor)
+        exec "$SCRIPTS/doctor.sh"
+        ;;
+    repair)
+        exec "$REPO_DIR/repair.sh" "$@"
+        ;;
+    backup)
+        exec "$SCRIPTS/backup.sh"
+        ;;
+    restore)
+        exec "$SCRIPTS/restore.sh" "${1:-}"
+        ;;
+    reset)
+        exec "$SCRIPTS/reset.sh"
+        ;;
+    dashboard)
+        exec python3 "$REPO_DIR/dashboard/main.py"
+        ;;
+    version|--version|-v)
+        echo "DebRice v$VERSION"
+        ;;
+    info)
+        [[ -f "$DEBRICE_STATE_DIR/hardware.env" ]] && source "$DEBRICE_STATE_DIR/hardware.env"
+        [[ -f "$DEBRICE_STATE_DIR/selection.env" ]] && source "$DEBRICE_STATE_DIR/selection.env"
+        cat <<EOF
+DebRice v$VERSION
+Theme:        ${SELECTED_THEME:-unset}
+Waybar style: ${SELECTED_WAYBAR_STYLE:-unset}
+Icons:        ${SELECTED_ICONS:-unset}
+Cursor:       ${SELECTED_CURSOR:-unset}
+CPU:          ${CPU_VENDOR:-unknown} (${CPU_CORES:-?} cores)
+GPU:          ${GPU_VENDOR:-unknown} (hybrid: ${GPU_HYBRID:-false})
+RAM:          ${RAM_TOTAL_MB:-?}MB (tier: ${RAM_TIER:-unknown})
+Resolution:   ${RESOLUTION:-unknown} (${RESOLUTION_CLASS:-unknown})
+Chassis:      ${CHASSIS_TYPE:-unknown}
+Repo:         $REPO_DIR
+EOF
+        ;;
+    help|--help|-h|"")
+        usage
+        ;;
+    *)
+        echo "Unknown command: $cmd" >&2
+        usage
+        exit 1
+        ;;
+esac

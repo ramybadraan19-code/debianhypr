@@ -1,0 +1,61 @@
+/* DebRice — wlogout style. Theme: {{THEME_NAME}} */
+
+* {
+    font-family: "JetBrainsMono Nerd Font", "Noto Sans", sans-serif;
+    font-size: 14px;
+    color: {{FG_HEX}};
+    background-color: {{BG_HEX}};
+}
+
+window {
+    background-color: rgba({{BG_HEX}}, 0.85);
+}
+
+button {
+    background-color: {{BG_ALT_HEX}};
+    border: 1px solid {{BORDER_INACTIVE_HEX}};
+    border-radius: {{ROUNDING}};
+    padding: 15px 30px;
+    margin: 8px;
+    min-width: 160px;
+    min-height: 80px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 40px;
+}
+
+button:focus,
+button:hover {
+    background-color: {{BG_ALT_HEX}};
+    border: 2px solid {{ACCENT_HEX}};
+    color: {{FG_HEX}};
+}
+
+button:active {
+    background-color: {{ACCENT_HEX}};
+    color: {{BG_HEX}};
+}
+
+#lock {
+    background-image: image(url("/usr/share/wlogout/icons/lock.svg"));
+}
+
+#logout {
+    background-image: image(url("/usr/share/wlogout/icons/logout.svg"));
+}
+
+#suspend {
+    background-image: image(url("/usr/share/wlogout/icons/suspend.svg"));
+}
+
+#hibernate {
+    background-image: image(url("/usr/share/wlogout/icons/hibernate.svg"));
+}
+
+#shutdown {
+    background-image: image(url("/usr/share/wlogout/icons/shutdown.svg"));
+}
+
+#reboot {
+    background-image: image(url("/usr/share/wlogout/icons/reboot.svg"));
+}

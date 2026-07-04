@@ -1,0 +1,56 @@
+;; DebRice — EWW desktop widgets: clock, weather, music, system stats.
+;; Colors are injected at apply-theme time via eww.scss (see style template).
+
+(defpoll time-hm :interval "10s" "date '+%H:%M'")
+(defpoll date-full :interval "60s" "date '+%A, %d %B %Y'")
+(defpoll weather-str :interval "15m" "~/.local/share/debrice/repo/scripts/weather.sh --short")
+(defpoll music-title :interval "3s" "playerctl metadata --format '{{title}} — {{artist}}' 2>/dev/null || echo 'Nothing playing'")
+(defpoll cpu-usage :interval "2s" "top -bn1 | grep 'Cpu(s)' | awk '{print int($2)}'")
+(defpoll ram-usage :interval "2s" "free | awk '/Mem/{printf \"%d\", $3/$2*100}'")
+
+(defwidget clock-widget []
+  (box :class "clock-widget" :orientation "v" :space-evenly false
+    (label :class "clock-time" :text time-hm)
+    (label :class "clock-date" :text date-full)))
+
+(defwidget weather-widget []
+  (box :class "weather-widget" :orientation "h"
+    (label :class "weather-text" :text weather-str)))
+
+(defwidget music-widget []
+  (box :class "music-widget" :orientation "h" :space-evenly false
+    (label :class "music-icon" :text "")
+    (label :class "music-text" :text music-title :limit-width 34)))
+
+(defwidget sysstats-widget []
+  (box :class "sysstats-widget" :orientation "h" :space-evenly true
+    (box :orientation "v" (label :text " CPU") (label :class "stat-value" :text "${cpu-usage}%"))
+    (box :orientation "v" (label :text " RAM") (label :class "stat-value" :text "${ram-usage}%"))))
+
+(defwindow desktop-clock
+  :monitor 0
+  :geometry (geometry :x "40px" :y "40px" :width "420px" :height "220px" :anchor "top left")
+  :stacking "bg"
+  :focusable false
+  (clock-widget))
+
+(defwindow desktop-weather
+  :monitor 0
+  :geometry (geometry :x "40px" :y "270px" :width "300px" :height "50px" :anchor "top left")
+  :stacking "bg"
+  :focusable false
+  (weather-widget))
+
+(defwindow desktop-music
+  :monitor 0
+  :geometry (geometry :x "40px" :y "-40px" :width "420px" :height "60px" :anchor "bottom left")
+  :stacking "bg"
+  :focusable false
+  (music-widget))
+
+(defwindow desktop-sysstats
+  :monitor 0
+  :geometry (geometry :x "-40px" :y "40px" :width "260px" :height "70px" :anchor "top right")
+  :stacking "bg"
+  :focusable false
+  (sysstats-widget))

@@ -1,0 +1,13 @@
+/* DebRice Waybar style: CYBERPUNK NEON */
+* { font-family: "JetBrainsMono Nerd Font"; font-size: 13px; min-height: 0; }
+window#waybar { background: {{BG_HEX_A}}; color: {{FG_HEX}}; border-bottom: 2px solid {{ACCENT_HEX}}; }
+#workspaces button { padding: 0 8px; color: {{ACCENT2_HEX}}; border: 1px solid transparent; }
+#workspaces button.active { color: {{BG_HEX}}; background: {{ACCENT_HEX}}; box-shadow: 0 0 8px {{ACCENT_HEX}}; }
+#clock, #cpu, #memory, #disk, #network, #bluetooth, #pulseaudio, #temperature,
+#tray, #custom-power, #custom-clipboard, #custom-weather, #custom-cava,
+#custom-notification, #custom-keyboard-layout {
+    padding: 0 10px; margin: 3px 1px; color: {{ACCENT2_HEX}};
+    border: 1px solid {{ACCENT_HEX}}; background: {{BG_ALT_HEX_A}};
+    text-shadow: 0 0 6px {{ACCENT_HEX}};
+}
+#custom-power { color: {{RED_HEX}}; border-color: {{RED_HEX}}; }

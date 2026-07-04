@@ -1,0 +1,9 @@
+/* DebRice — GTK3 CSS overrides for Dolphin/Nautilus-style apps: rounded
+   corners, translucent sidebar, accent color matching the active theme. */
+window { border-radius: {{ROUNDING}}px; }
+.sidebar, placessidebar {
+    background-color: {{BG_ALT_HEX_A}};
+    border-right: 1px solid {{BORDER_INACTIVE_HEX}};
+}
+headerbar { background-color: {{BG_HEX_A}}; border-radius: {{ROUNDING}}px {{ROUNDING}}px 0 0; }
+button.suggested-action, *:selected { background-color: {{ACCENT_HEX}}; color: {{BG_HEX}}; }

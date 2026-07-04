@@ -1,0 +1,12 @@
+/* DebRice Waybar style: MODERN */
+* { font-family: "JetBrainsMono Nerd Font"; font-size: 13px; min-height: 0; }
+window#waybar { background: {{BG_HEX_A}}; color: {{FG_HEX}}; border-bottom: 2px solid {{ACCENT_HEX}}; }
+#workspaces button { padding: 0 8px; color: {{FG_ALT_HEX}}; border-radius: 6px; }
+#workspaces button.active { color: {{BG_HEX}}; background: {{ACCENT_HEX}}; }
+#clock, #cpu, #memory, #disk, #network, #bluetooth, #pulseaudio, #temperature,
+#tray, #custom-power, #custom-clipboard, #custom-weather, #custom-cava,
+#custom-notification, #custom-keyboard-layout {
+    padding: 0 10px; margin: 3px 2px; background: {{BG_ALT_HEX_A}}; border-radius: 8px; color: {{FG_HEX}};
+}
+#custom-power { color: {{RED_HEX}}; }
+#window { color: {{FG_ALT_HEX}}; }

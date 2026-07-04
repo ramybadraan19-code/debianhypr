@@ -1,0 +1,17 @@
+# DebRice — Mako notification daemon config. Theme: {{THEME_NAME}}
+font=JetBrainsMono Nerd Font 11
+background-color={{BG_HEX_A}}
+text-color={{FG_HEX}}
+border-color={{ACCENT_HEX}}
+border-size=2
+border-radius={{ROUNDING}}
+padding=12
+margin=10
+default-timeout=5000
+max-visible=5
+layer=overlay
+anchor=top-right
+
+[urgency=critical]
+border-color={{RED_HEX}}
+default-timeout=0
